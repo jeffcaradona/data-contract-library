@@ -5,7 +5,7 @@
 ### Small Payload Response
 
 ```javascript
-const { SmallPayload, sendResponse } = require('./src');
+import { SmallPayload, sendResponse } from './src/index.js';
 
 router.get('/status', (req, res) => {
   const contract = SmallPayload({
@@ -30,7 +30,7 @@ router.get('/status', (req, res) => {
 ### Paginated Response
 
 ```javascript
-const { PaginatedPayload, sendResponse } = require('./src');
+import { PaginatedPayload, sendResponse } from './src/index.js';
 
 router.get('/users', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -65,8 +65,8 @@ router.get('/users', async (req, res) => {
 ### Streamed File Response
 
 ```javascript
-const { StreamedPayload, sendResponse } = require('./src');
-const fs = require('fs');
+import { StreamedPayload, sendResponse } from './src/index.js';
+import fs from 'fs';
 
 router.get('/export', async (req, res) => {
   const stream = await generateExcelReport(req.query.filters);
@@ -96,7 +96,7 @@ router.get('/export', async (req, res) => {
 
 ```javascript
 // controllers/dataController.js
-const { SmallPayload, PaginatedPayload, StreamedPayload } = require('../src');
+import { SmallPayload, PaginatedPayload, StreamedPayload } from '../src/index.js';
 
 class DataController {
   async getStats(filters) {
@@ -119,7 +119,7 @@ class DataController {
 }
 
 // routes/api.js
-const { sendResponse } = require('../src');
+import { sendResponse } from '../src/index.js';
 const dataController = new DataController();
 
 router.get('/stats', async (req, res) => {
@@ -148,7 +148,7 @@ router.get('/export', async (req, res) => {
 ### Graceful Contract Validation
 
 ```javascript
-const { sendResponse, validateContract, SmallPayload } = require('../src');
+import { sendResponse, validateContract, SmallPayload } from '../src/index.js';
 
 router.get('/data', async (req, res) => {
   try {
@@ -175,7 +175,7 @@ router.get('/data', async (req, res) => {
 ### Global Contract Support
 
 ```javascript
-const { contractMiddleware } = require('../src/middleware');
+import { contractMiddleware } from '../src/middleware.js';
 
 app.use(contractMiddleware());
 
@@ -198,7 +198,7 @@ router.get('/download', async (req, res) => {
 ### Combining Validators
 
 ```javascript
-const { validateContract } = require('../src');
+import { validateContract } from '../src/index.js';
 
 const customValidation = (contract) => {
   const baseValidation = validateContract(contract);
@@ -259,8 +259,10 @@ router.get('/report', async (req, res) => {
 ### Testing Controllers with Contracts
 
 ```javascript
-const { validateContract } = require('../src');
-const dataController = require('../controllers/dataController');
+import { validateContract } from '../src/index.js';
+import { DataController } from '../controllers/dataController.js';
+
+const dataController = new DataController();
 
 describe('DataController', () => {
   test('getStats returns valid small payload contract', async () => {
@@ -308,6 +310,8 @@ router.get('/export-old', async (req, res) => {
 });
 
 // Contract Pattern: Streams data
+import { StreamedPayload, sendResponse } from '../src/index.js';
+
 router.get('/export-new', async (req, res) => {
   const stream = db.queryStream('SELECT * FROM massive_table'); // ✅ Constant memory
   const csvStream = stream.pipe(csvTransform());

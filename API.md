@@ -14,6 +14,8 @@ Creates a contract for small JSON responses.
 
 **Example:**
 ```javascript
+import { SmallPayload } from './src/index.js';
+
 const contract = SmallPayload({ status: 'ok', message: 'Operation completed' });
 // {
 //   type: 'small',
@@ -39,6 +41,8 @@ Creates a contract for paginated data responses.
 
 **Example:**
 ```javascript
+import { PaginatedPayload } from './src/index.js';
+
 const contract = PaginatedPayload(
   [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }],
   1,
@@ -76,6 +80,9 @@ Creates a contract for streamed responses (file downloads, large data).
 
 **Example:**
 ```javascript
+import fs from 'fs';
+import { StreamedPayload } from './src/index.js';
+
 const stream = fs.createReadStream('report.xlsx');
 const contract = StreamedPayload(
   stream,
@@ -109,6 +116,8 @@ Validates a contract against its type-specific rules.
 
 **Example:**
 ```javascript
+import { validateContract } from './src/index.js';
+
 const result = validateContract(contract);
 if (!result.ok) {
   console.error('Validation failed:', result.error);
@@ -131,6 +140,8 @@ Higher-order function that creates a response sender for Express.
 
 **Example:**
 ```javascript
+import { sendResponse } from './src/index.js';
+
 router.get('/data', async (req, res) => {
   const contract = await controller.getData();
   sendResponse(res)(contract);
@@ -151,6 +162,8 @@ Lower-level handler that processes validated contracts.
 
 **Example:**
 ```javascript
+import { handleResponse, StreamedPayload } from './src/index.js';
+
 const handler = handleResponse(res);
 handler(StreamedPayload(stream, 'file.csv'));
 ```
@@ -168,6 +181,8 @@ Express middleware that adds contract sending capability to response object.
 
 **Example:**
 ```javascript
+import { contractMiddleware, SmallPayload } from './src/index.js';
+
 app.use(contractMiddleware());
 
 // Now in routes:

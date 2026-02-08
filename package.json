@@ -1,0 +1,20 @@
+{
+  "name": "data-contract-library",
+  "version": "0.0.1",
+  "description": "A lightweight Node.js library demonstrating functional programming paradigms for enforcing response contracts across heterogeneous payload types.",
+  "homepage": "https://github.com/jeffcaradona/data-contract-library#readme",
+  "bugs": {
+    "url": "https://github.com/jeffcaradona/data-contract-library/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffcaradona/data-contract-library.git"
+  },
+  "license": "MIT",
+  "author": "Jeff Caradona <jeffcaradona@gmail.com>",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
